@@ -57,12 +57,12 @@
                 />
 
             <TextView
-                android:id="@+id/forget_password_link"
+                android:id="@+id/forgot_password_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/login_password"
-                android:text="Forget Password ?"
+                android:text="Forgot Password ?"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="23dp"
@@ -76,7 +76,7 @@
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/forget_password_link"
+                android:layout_below="@+id/forgot_password_link"
                 android:padding="4dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginLeft="19dp"
