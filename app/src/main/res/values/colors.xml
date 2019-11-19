@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#008577</color>      <!-- TypeIt yazan kısmın rengi, genel olarak ana renk-->
+    <color name="colorPrimaryDark">#00574B</color>  <!--Bildirim çubuğunu çektiğin yerin rengi-->
+    <color name="colorAccent">#D81B60</color>       <!--chats groups contacts in altındaki küçük rnek, menünün altı -->
 </resources>
