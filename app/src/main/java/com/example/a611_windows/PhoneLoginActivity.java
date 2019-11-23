@@ -1,7 +1,8 @@
 package com.example.a611_windows;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.util.Log;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -148,7 +149,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete( Task<AuthResult> task) {
+                    public void onComplete( @NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             loadingBar.dismiss();
                             Toast.makeText(PhoneLoginActivity.this, "Congratulations, you're logged in Successfully.", Toast.LENGTH_SHORT).show();
