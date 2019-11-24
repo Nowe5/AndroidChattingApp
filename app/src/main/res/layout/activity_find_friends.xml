@@ -8,9 +8,10 @@
     tools:context=".FindFriendsActivity">
 
     <include
-        android:id="@+id/find_friends_toolbar"
         layout="@layout/app_bar_layout"
-    />
+        android:id="@+id/find_friends_toolbar"
+        
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/find_friends_recycler_list"

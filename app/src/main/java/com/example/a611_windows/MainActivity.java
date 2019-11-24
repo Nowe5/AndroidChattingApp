@@ -213,6 +213,5 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent findFriendsIntent = new Intent(MainActivity.this, FindFriendsActivity.class);
         startActivity(findFriendsIntent);
-        finish();
     }
 }

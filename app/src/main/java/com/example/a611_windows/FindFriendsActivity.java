@@ -27,7 +27,6 @@ public class FindFriendsActivity extends AppCompatActivity
     private RecyclerView FindFriendsRecyclerList;
     private DatabaseReference UsersRef;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -43,6 +42,7 @@ public class FindFriendsActivity extends AppCompatActivity
 
 
         mToolbar = (Toolbar) findViewById(R.id.find_friends_toolbar);
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
