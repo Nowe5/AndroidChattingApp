@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -69,7 +70,54 @@ public class ContactsFragment extends Fragment
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<Contacts>()
                 .setQuery(ContactsRef, Contacts.class).build();
 
-        //FirebaseRecyclerAdapter<Contacts, >
+        FirebaseRecyclerAdapter<Contacts,ContactsViewHolder > adapter
+                = new FirebaseRecyclerAdapter<Contacts, ContactsViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull final ContactsViewHolder holder, int position, @NonNull Contacts model) {
+                String userIDs = getRef(position).getKey();
+                UsersRef.child(userIDs).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChild("image")){
+
+                            String userImage = dataSnapshot.child("image").getValue().toString();
+                            String profileName = dataSnapshot.child("name").getValue().toString();
+                            String profileStatus = dataSnapshot.child("status").getValue().toString();
+
+                            holder.userName.setText(profileName);
+                            holder.userStatus.setText(profileStatus);
+                            Picasso.get().load(userImage).placeholder(R.drawable.profile_image).into(holder.profileImage);
+
+                        }
+                        else {
+
+                            String profileName = dataSnapshot.child("name").getValue().toString();
+                            String profileStatus = dataSnapshot.child("status").getValue().toString();
+
+                            holder.userName.setText(profileName);
+                            holder.userStatus.setText(profileStatus);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public ContactsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.users_display_layout, viewGroup,false);
+                ContactsViewHolder viewHolder = new ContactsViewHolder(view);
+                return viewHolder;
+            }
+        };
+
+        myContactsList.setAdapter(adapter);
+        adapter.startListening();
     }
 
     public static class ContactsViewHolder extends RecyclerView.ViewHolder
