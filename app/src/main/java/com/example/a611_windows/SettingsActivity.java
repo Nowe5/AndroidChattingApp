@@ -104,7 +104,7 @@ public class SettingsActivity extends AppCompatActivity
         userProfileImage = (CircleImageView) findViewById(R.id.set_profile_image);
         loadingBar = new ProgressDialog(this);
 
-        SettingsToolBar = (Toolbar) findViewById(R.id.settins_toolbar);
+        SettingsToolBar = (Toolbar) findViewById(R.id.settings_toolbar);
         setSupportActionBar(SettingsToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
