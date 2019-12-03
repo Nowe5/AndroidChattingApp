@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.DocumentsContract;

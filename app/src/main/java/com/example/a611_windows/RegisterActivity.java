@@ -14,11 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class RegisterActivity extends AppCompatActivity
 {
@@ -55,14 +58,14 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                CreateNewAccoun();
+                CreateNewAccount();
             }
         });
     }
 
 
 
-    private void CreateNewAccoun()
+    private void CreateNewAccount()
     {
         String email = UserEmail.getText().toString();
         String password = UserPassword.getText().toString();
@@ -90,7 +93,18 @@ public class RegisterActivity extends AppCompatActivity
                     {
                         if(task.isSuccessful())
                         {
-                            String currentUserID = mAuth.getCurrentUser().getUid();
+                            final String currentUserID = mAuth.getCurrentUser().getUid();
+
+
+                            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                                @Override
+                                public void onSuccess(InstanceIdResult instanceIdResult) {
+                                    String deviceToken = instanceIdResult.getToken();
+                                    RootRef.child("Users").child(currentUserID).child("device_token")
+                                            .setValue(deviceToken);
+                                }
+                            });
+
                             RootRef.child("Users").child(currentUserID).setValue("");
 
                             SendUserToMainActivity();
