@@ -89,8 +89,8 @@ public class RequestsFragment extends Fragment
                     @Override
                     protected void onBindViewHolder(@NonNull final RequestsViewHolder holder, int position, @NonNull Contacts model)
                     {
-                        holder.itemView.findViewById(R.id.request_accept_btn).setVisibility(View.VISIBLE);
-                        holder.itemView.findViewById(R.id.request_decline_btn).setVisibility(View.VISIBLE);
+                        holder.itemView.findViewById(R.id.request_accept_btn).setVisibility(View.INVISIBLE);
+                        holder.itemView.findViewById(R.id.request_decline_btn).setVisibility(View.INVISIBLE);
 
 
                         final String list_user_id = getRef(position).getKey();
