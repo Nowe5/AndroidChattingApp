@@ -100,7 +100,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             else{
 
                 messageViewHolder.receiverMessageText.setVisibility(View.VISIBLE);
-                messageViewHolder.receiverProfileImage.setVisibility(View.VISIBLE);
+                messageViewHolder.receiverProfileImage.setVisibility(View.INVISIBLE);
 
                 messageViewHolder.receiverMessageText.setBackgroundResource(R.drawable.receiver_messages_layout);
                 //messageViewHolder.receiverMessageText.setTextColor(Color.BLACK);

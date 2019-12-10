@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -120,15 +122,27 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    /*@Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_POWER) {
+            userMessagesList=null;
+            return true;
+        }
+
+        return super.dispatchKeyEvent(event);
+    }*/ // telefon kitelemede çalışacak fonksiyon denenecek
+
     private void DisplayLastSeen(){
-        RootRef.child("Users").child(messageSenderID).addValueEventListener(new ValueEventListener() {
+        RootRef.child("Users").child(messageReceiverID).addValueEventListener(new ValueEventListener() {
+
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child("userState").hasChild("state")){
                     String state = dataSnapshot.child("userState").child("state").getValue().toString();
                     String date= dataSnapshot.child("userState").child("date").getValue().toString();
                     String time = dataSnapshot.child("userState").child("time").getValue().toString();
-
+                    userLastSeen.setText("Last Seen: " + date + " " + time);
                     if(state.equals("online")){
                         userLastSeen.setText("online");
                     }

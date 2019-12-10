@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -40,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout myTabLayout;
     private TabsAccessorAdapter myTabsAccessorAdapter;
 
-
+    private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private DatabaseReference RootRef;
 
     private String currentUserID;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         RootRef = FirebaseDatabase.getInstance().getReference();
+        currentUser = mAuth.getCurrentUser();
+
+
+        currentUserID = mAuth.getCurrentUser().getUid();
 
         mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
@@ -75,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onStart();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
 
 
         if(currentUser == null)
@@ -93,22 +101,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser!= null){
-            updateUserStatus("offline");
+            //updateUserStatus("offline");
         }
+        String a= "ONSTOPÇAĞRILDI\n\n";
+        Log.d("bilgi",a);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String a= "ONPAUISEÇAĞRILDI\n\n";
+        Log.d("bilgi",a);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser!= null){
             updateUserStatus("offline");
         }
+        String a= "ONDESTROYÇAĞRILDI\n\n";
+        Log.d("bilgi",a);
     }
+
 
     private void VerifyUserExistance()
     {
@@ -137,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -149,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
         super.onOptionsItemSelected(item);
+
 
         if(item.getItemId() == R.id.main_logout)
         {
@@ -172,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
 
     private void RequestNewGroup()
     {
@@ -210,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
+
     private void CreateNewGroup(final String groupName)
     {
         RootRef.child("Groups").child(groupName).setValue("").addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -231,14 +255,16 @@ public class MainActivity extends AppCompatActivity {
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
         finish();
+
+
     }
 
     private void SendUserToSettingsActivity()
     {
         Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(settingsIntent);
-    }
 
+    }
     private void SendUserToFindFriendsActivity()
     {
         Intent findFriendsIntent = new Intent(MainActivity.this, FindFriendsActivity.class);
@@ -259,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
         onlineStateMap.put("date",saveCurrentDate);
         onlineStateMap.put("state",state);
 
-        currentUserID = mAuth.getCurrentUser().getUid();
+        //currentUserID = mAuth.getCurrentUser().getUid();
 
         RootRef.child("Users").child(currentUserID).child("userState")
                 .updateChildren(onlineStateMap);
