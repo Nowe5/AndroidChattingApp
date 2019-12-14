@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        String a= "ONPAUISEÇAĞRILDI\n\n";
+        String a= "ONPAUSEÇAĞRILDI\n\n";
         Log.d("bilgi",a);
     }
 
