@@ -6,14 +6,14 @@ public class GroupMessages {
     private String type;
     private String time;
     private String date;
-    private String name;
+    private String id;
 
-    public GroupMessages(String message, String type, String time, String date, String name) {
+    public GroupMessages(String message, String type, String time, String date, String id) {
         this.message = message;
         this.type = type;
         this.time = time;
         this.date = date;
-        this.name = name;
+        this.id = id;
     }
     public GroupMessages(){
 
@@ -52,11 +52,11 @@ public class GroupMessages {
         this.date = date;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.id = id;
     }
 }

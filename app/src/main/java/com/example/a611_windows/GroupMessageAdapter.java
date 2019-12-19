@@ -3,11 +3,13 @@ package com.example.a611_windows;
 
 import android.graphics.Color;
 import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,14 +32,14 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
     private List<GroupMessages> userMessagesList;
     private FirebaseAuth mAuth;
-    private String currentUserID;
+    private String currentUserID, nickName;
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
 
     private String groupName;
-    private DatabaseReference GroupRef;
+    private DatabaseReference GroupRef, UsersRef;
 
     public GroupMessageAdapter (List<GroupMessages> userMessagesList){
 
@@ -67,6 +69,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
+        Log.d("bilgi","currentUserID -----"+currentUserID);
 
 
         return new MessageViewHolder(view);
@@ -74,12 +77,26 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final MessageViewHolder messageViewHolder, int i) {
-        String messageSenderID = mAuth.getCurrentUser().getUid();
+
         GroupMessages messages = userMessagesList.get(i);
 
         String fromMessageType = messages.getType();
+        String messageSenderID = messages.getId();
 
         GroupRef = FirebaseDatabase.getInstance().getReference().child("Groups").child(groupName);
+        UsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(messageSenderID);
+
+
+        UsersRef.child("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot)
+            {
+                nickName = snapshot.getValue().toString();  //prints "Do you have data? You'll love Firebase."
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
 
 
@@ -105,7 +122,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
                 messageViewHolder.receiverMessageText.setBackgroundResource(R.drawable.receiver_messages_layout);
                 //messageViewHolder.receiverMessageText.setTextColor(Color.BLACK);
-                messageViewHolder.receiverMessageText.setText(messages.getMessage()+ "\n \n" + messages.getTime()+ "-" + messages.getDate());
+                messageViewHolder.receiverMessageText.setText(nickName+"\n"+messages.getMessage()+ "\n \n" + messages.getTime()+ "-" + messages.getDate());
             }
         }
 

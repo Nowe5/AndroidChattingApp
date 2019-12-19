@@ -216,10 +216,11 @@ public class GroupChatActivity extends AppCompatActivity
 
             String messagePushID = GroupMessageKeyRef.getKey();
 
+            String userName= mAuth.getCurrentUser().getDisplayName();
             Map messageTextBody = new HashMap();
             messageTextBody.put("message", messageText);
             messageTextBody.put("type", "text");
-            messageTextBody.put("name", "" );
+            messageTextBody.put("id", mAuth.getCurrentUser().getUid() );
             messageTextBody.put("time", saveCurrentTime);
             messageTextBody.put("date", saveCurrentDate);
 
