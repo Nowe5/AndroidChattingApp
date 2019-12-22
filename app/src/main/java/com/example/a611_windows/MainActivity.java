@@ -61,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
 
 
-        currentUserID = mAuth.getCurrentUser().getUid();
+        try{currentUserID = mAuth.getCurrentUser().getUid();}
+        catch (Exception e){}
 
         mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
