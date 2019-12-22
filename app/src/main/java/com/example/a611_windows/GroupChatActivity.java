@@ -82,7 +82,7 @@ public class GroupChatActivity extends AppCompatActivity
 
         currentGroupName = getIntent().getExtras().get("groupName").toString();
 
-        GroupMessageKeyRef = FirebaseDatabase.getInstance().getReference().child("Groups").child(currentGroupName).push();
+        GroupMessageKeyRef = FirebaseDatabase.getInstance().getReference().child("Groups").child(currentGroupName);
         Toast.makeText(GroupChatActivity.this, currentGroupName, Toast.LENGTH_SHORT).show();
 
 
@@ -208,10 +208,7 @@ public class GroupChatActivity extends AppCompatActivity
 
         } else {
 
-
-
-
-            String messagePushID = GroupMessageKeyRef.getKey();
+            String messagePushID = GroupMessageKeyRef.push().getKey();
 
             String userName= mAuth.getCurrentUser().getDisplayName();
             Map messageTextBody = new HashMap();

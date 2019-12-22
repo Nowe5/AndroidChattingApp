@@ -120,19 +120,12 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
             }
             else{
 
-                /*RootRef.child("Users").child(messageSenderID).addValueEventListener(new ValueEventListener() {
+                RootRef.child("Users").child(messageSenderID).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                     {
-                        if ( (dataSnapshot.exists()) && (dataSnapshot.hasChild("name") ) )
-                        {
-                            String retrieveUserName = dataSnapshot.child("name").getValue().toString();
-
-
-                            nickName = retrieveUserName;
-
-                        }
-
+                        String retrieveUserName = dataSnapshot.child("name").getValue().toString();
+                        nickName = retrieveUserName;
                     }
 
                     @Override
@@ -140,9 +133,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
                     {
 
                     }
-                });*/
-
-                DatabaseReference TempRef  = RootRef.child("Users").child(messageSenderID);
+                });
 
 
 
@@ -151,7 +142,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
                 messageViewHolder.receiverMessageText.setBackgroundResource(R.drawable.receiver_messages_layout);
                 //messageViewHolder.receiverMessageText.setTextColor(Color.BLACK);
-                messageViewHolder.receiverMessageText.setText(nickName+":\n\n"+messages.getMessage()+ "\n \n" + messages.getTime()+ "-" + messages.getDate());
+                messageViewHolder.receiverMessageText.setText(nickName+":\n"+messages.getMessage()+ "\n \n" + messages.getTime()+ "-" + messages.getDate());
             }
         }
 
