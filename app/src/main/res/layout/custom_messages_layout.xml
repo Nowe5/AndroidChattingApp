@@ -22,8 +22,9 @@
         android:layout_marginLeft="5dp"
         android:background="@drawable/receiver_messages_layout"
         android:text="receiver messages here"
-        android:padding="10dp"
+        android:layout_margin="5dp"
         android:textSize="14sp"
+        android:padding="5dp"
 
         ></TextView>
 
@@ -36,9 +37,9 @@
         android:layout_alignParentTop="@+id/receiver_message_text"
         android:background="@drawable/sender_messages_layout"
         android:text="sender messages here"
-        android:padding="10dp"
+        android:layout_margin="5dp"
         android:textSize="14sp"
-        android:layout_marginRight="5dp"
+        android:padding="5dp"
 
         ></TextView>
 
@@ -49,6 +50,7 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="5dp"
         android:scaleType="centerCrop"
+
 
         ></ImageView>
 

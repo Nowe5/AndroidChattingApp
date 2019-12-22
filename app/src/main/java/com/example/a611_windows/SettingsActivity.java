@@ -91,7 +91,6 @@ public class SettingsActivity extends AppCompatActivity
                 galleryIntent.setType("image/*");
                 startActivityForResult(galleryIntent,GalleryPick);
 
-
             }
         });
     }

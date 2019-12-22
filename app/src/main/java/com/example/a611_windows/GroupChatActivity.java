@@ -38,6 +38,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class GroupChatActivity extends AppCompatActivity
 {
 
@@ -59,6 +61,8 @@ public class GroupChatActivity extends AppCompatActivity
     private RecyclerView userMessagesList;
     private LinearLayoutManager linearLayoutManager;
     private ProgressDialog loadingBar;
+    private TextView lastSeen;
+    private CircleImageView profileImg, senderImg;
 
 
     @Override
@@ -90,19 +94,6 @@ public class GroupChatActivity extends AppCompatActivity
 
         groupName.setText(currentGroupName);
 
-        //GetUserInfo();
-
-        /*SendMessageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                SaveMessageInfoToDatabase();
-
-                userMessageInput.setText("");
-
-                mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
-            }
-        });*/
         SendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +107,6 @@ public class GroupChatActivity extends AppCompatActivity
             {
                 if(dataSnapshot.exists())
                 {
-                    //DisplayMessages(dataSnapshot);
 
                     GroupMessages messages = dataSnapshot.getValue(GroupMessages.class);
                     groupMessagesList.add(messages);
@@ -180,8 +170,15 @@ public class GroupChatActivity extends AppCompatActivity
         SendMessageButton = (ImageButton) findViewById(R.id.send_message_btn2);
         SendFilesButton = (ImageButton) findViewById(R.id.send_files_btn2);
         userMessageInput = (EditText) findViewById(R.id.input_message2);
+        lastSeen = (TextView) findViewById(R.id.custom_user_last_seen);
+        profileImg = (CircleImageView) findViewById(R.id.custom_profile_IMAGE);
+
+        profileImg.setVisibility(View.GONE);
+        lastSeen.setVisibility(View.GONE);
+
 
         groupName = (TextView) findViewById(R.id.custom_profile_name);
+        groupName.setVisibility(View.GONE);
         groupMessageAdapter = new GroupMessageAdapter(groupMessagesList);
         groupMessageAdapter.setGroupName(currentGroupName);
         userMessagesList = (RecyclerView) findViewById(R.id.private_messages_list_of_users2);
@@ -243,56 +240,6 @@ public class GroupChatActivity extends AppCompatActivity
 
         }
     }
-    /*private void SaveMessageInfoToDatabase()
-    {
-        String message = userMessageInput.getText().toString();
-        String messageKey = GroupNameRef.push().getKey();
 
-        if(TextUtils.isEmpty(message))
-        {
-            Toast.makeText(this, "Cant send empty Message", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            Calendar calForDate = Calendar.getInstance();
-            SimpleDateFormat currentDateFormat = new SimpleDateFormat("MMM dd, yyyy"); //date format değiştirebiliriz!
-            currentDate = currentDateFormat.format(calForDate.getTime());
-
-            Calendar calForTime = Calendar.getInstance();
-            SimpleDateFormat currentTimeFormat = new SimpleDateFormat("hh:mm a"); //time format değiştirebiliriz! büyük H belki
-            currentTime = currentTimeFormat.format(calForTime.getTime());
-
-            HashMap<String, Object> groupMessageKey = new HashMap<>();
-            GroupNameRef.updateChildren(groupMessageKey);
-
-            GroupMessageKeyRef = GroupNameRef.child(messageKey);
-
-            HashMap<String, Object> messageInfoMap = new HashMap<>();
-                messageInfoMap.put("name", currentUserName);
-                messageInfoMap.put("message", message);
-                messageInfoMap.put("type",checker);
-                messageInfoMap.put("date", currentDate);
-                messageInfoMap.put("time", currentTime);
-            GroupMessageKeyRef.updateChildren(messageInfoMap);
-        }
-    }
-
-        private void GetUserInfo ()
-        {
-            UsersRef.child(currentUserID).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        currentUserName = dataSnapshot.child("name").getValue().toString();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
-*/
 
 }

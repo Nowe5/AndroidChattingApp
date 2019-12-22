@@ -28,18 +28,22 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.view.View.GONE;
+
 public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapter.MessageViewHolder> {
 
     private List<GroupMessages> userMessagesList;
     private FirebaseAuth mAuth;
     private String currentUserID, nickName;
+    private CircleImageView receiverProfileImage;
+
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
 
     private String groupName;
-    private DatabaseReference GroupRef, UsersRef;
+    private DatabaseReference GroupRef, UsersRef, RootRef;
 
     public GroupMessageAdapter (List<GroupMessages> userMessagesList){
 
@@ -58,6 +62,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
             receiverMessageText = (TextView) itemView.findViewById(R.id.receiver_message_text);
             messageReceiverPicture =(ImageView) itemView.findViewById(R.id.message_receiver_image_view);
             messageSenderPicture =(ImageView) itemView.findViewById(R.id.message_sender_image_view);
+            receiverProfileImage = (CircleImageView) itemView.findViewById(R.id.message_profile_image);
         }
     }
 
@@ -85,26 +90,24 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
         GroupRef = FirebaseDatabase.getInstance().getReference().child("Groups").child(groupName);
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(messageSenderID);
-
-
-        UsersRef.child("name").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot)
-            {
-                nickName = snapshot.getValue().toString();  //prints "Do you have data? You'll love Firebase."
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+        RootRef = FirebaseDatabase.getInstance().getReference();
 
 
 
-        messageViewHolder.receiverMessageText.setVisibility(View.GONE);
+        receiverProfileImage.setVisibility(GONE);
 
-        messageViewHolder.senderMessageText.setVisibility(View.GONE);
-        messageViewHolder.messageSenderPicture.setVisibility(View.GONE);
-        messageViewHolder.messageReceiverPicture.setVisibility(View.GONE);
+
+
+
+
+
+
+
+        messageViewHolder.receiverMessageText.setVisibility(GONE);
+
+        messageViewHolder.senderMessageText.setVisibility(GONE);
+        messageViewHolder.messageSenderPicture.setVisibility(GONE);
+        messageViewHolder.messageReceiverPicture.setVisibility(GONE);
 
         if(fromMessageType.equals("text")){
 
@@ -117,12 +120,38 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
             }
             else{
 
+                /*RootRef.child("Users").child(messageSenderID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        if ( (dataSnapshot.exists()) && (dataSnapshot.hasChild("name") ) )
+                        {
+                            String retrieveUserName = dataSnapshot.child("name").getValue().toString();
+
+
+                            nickName = retrieveUserName;
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
+
+                    }
+                });*/
+
+                DatabaseReference TempRef  = RootRef.child("Users").child(messageSenderID);
+
+
+
                 messageViewHolder.receiverMessageText.setVisibility(View.VISIBLE);
 
 
                 messageViewHolder.receiverMessageText.setBackgroundResource(R.drawable.receiver_messages_layout);
                 //messageViewHolder.receiverMessageText.setTextColor(Color.BLACK);
-                messageViewHolder.receiverMessageText.setText(nickName+"\n"+messages.getMessage()+ "\n \n" + messages.getTime()+ "-" + messages.getDate());
+                messageViewHolder.receiverMessageText.setText(nickName+":\n\n"+messages.getMessage()+ "\n \n" + messages.getTime()+ "-" + messages.getDate());
             }
         }
 
